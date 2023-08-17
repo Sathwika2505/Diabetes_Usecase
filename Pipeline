@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage("Loading the data"){
             steps{
-                sh 'python3 loading_data.py'
+                sh 'python3 loding_data.py'
             }
         }
         stage("Analysing the data"){
