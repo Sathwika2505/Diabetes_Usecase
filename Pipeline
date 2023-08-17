@@ -31,7 +31,7 @@ pipeline{
      post{
        
         always {
-            archiveArtifacts artifacts: 'Hotel_booking_artifact.csv', onlyIfSuccessful: true
+            archiveArtifacts artifacts: 'Diabetis_artifact.csv', onlyIfSuccessful: true
         }
             }
 }
