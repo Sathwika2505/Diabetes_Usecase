@@ -1,29 +1,50 @@
+from feature_engineering import df
+import pandas as pd
+import plotly.express as px
+from IPython.display import Image
+import warnings
+warnings.filterwarnings("ignore")
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from data_cleaning import df
-import numpy as np
+import plotly.figure_factory as ff
+import plotly.io as pio
+import io
+from PIL import Image
+a =[]
+data = df
+def data_visualization():
+    # data.drop(['OTI_A','OTI_T','WTI'], axis=1,inplace=True)
+    col=list(data.columns)
+    col.remove("diabetes")
+    print(col)
+    for i in col:
+        fig = px.box(data, y=i)
+        fig.update_layout(template='plotly_dark')
+        #fig.update_layout(plot_bgcolor = "plotly_dark")
+        fig.update_xaxes(showgrid=False,zeroline=False)
+        fig.update_yaxes(showgrid=False,zeroline=False)
+        # fig.show()
+        fig.write_image(f"{i}.jpg")
+        # a.append(fig)
+    # for i in col:
+    #     fig = ff.create_distplot([data[i].values],group_labels=[i])
+    #     fig.update_layout(template='plotly_dark')
+    #     #fig.update_layout(plot_bgcolor = "plotly_dark")
+    #     fig.update_xaxes(showgrid=False,zeroline=False)
+    #     fig.update_yaxes(showgrid=False,zeroline=False)
+        # fig.show()
+        # a.append(fig)
+    df=data.drop("diabetes",axis=1)
+    y=df.corr().columns.tolist()
+    z=df.corr().values.tolist()
+    z_text = np.around(z, decimals=4) # Only show rounded value (full value on hover)
+    fig = ff.create_annotated_heatmap(z,x=y,y=y,annotation_text=z_text,colorscale=px.colors.sequential.Cividis_r,showscale=True)
+    fig.update_layout(template='plotly_dark')
+    # fig.show()
+    fig.write_image("img.jpg")
+    # a.append(fig)
+    
+    return data
 
-copy2_df = df
-sns.countplot(data = copy2_df, x = "smoking_history")
-plt.show() 
-
-sns.countplot(data = copy2_df, x = "gender")
-plt.show() 
-
-sns.countplot(data = copy2_df, x = "blood_glucose_level")
-plt.show() 
-
-fig, ax = plt.subplots()
-sns.scatterplot(data = copy2_df, ax=ax, x = 'age', y = 'bmi')
-ax.set_ylim(1, 100)
-ax.set_xlim(1, 85)
-plt.show()
-
-fig, ax = plt.subplots()
-sns.barplot(data = copy2_df, x = 'HbA1c_level', y = 'age')
-y_ticks = np.arange(0, 81, 10)
-ax.set_yticks(y_ticks)
-ax.set_ylim(1, 80)
-
-df = copy2_df
-print(df)
+data_visualization()
