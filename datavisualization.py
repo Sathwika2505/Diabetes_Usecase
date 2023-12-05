@@ -1,4 +1,4 @@
-from feature_engineering import df
+from data_cleaning import df
 import pandas as pd
 import plotly.express as px
 from IPython.display import Image
@@ -35,7 +35,7 @@ def data_visualization():
     #     fig.update_yaxes(showgrid=False,zeroline=False)
         # fig.show()
         # a.append(fig)
-    df=data.drop("diabetes",axis=1)
+    df=data.drop(["diabetes","gender","smoking_history"],axis=1)
     y=df.corr().columns.tolist()
     z=df.corr().values.tolist()
     z_text = np.around(z, decimals=4) # Only show rounded value (full value on hover)
